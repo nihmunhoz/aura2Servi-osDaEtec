@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços da Etec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Variáveis CSS para as paletas de cores */
+        :root {
+            /* Paleta 1: Escura, avermelhada, laranja */
+            --color-dark-1: #03071e;
+            --color-dark-2: #370617;
+            --color-red-1: #6a040f; 
+            --color-red-2: #9d0208;
+            --color-red-3: #d00000;
+            --color-orange-1: #dc2f02;
+            --color-orange-2: #e85d04;
+            --color-orange-3: #f48c06;
+            --color-yellow-1: #faa307;
+            --color-yellow-2: #ffba08;
+
+            /* Paleta 2: Azul, cinza */
+            --color-blue-1: #0466c8; 
+            --color-blue-2: #0353a4;
+            --color-blue-3: #023e7d;
+            --color-dark-blue-1: #002855;
+            --color-dark-blue-2: #001845; /* Cor do botão (Primeira Página) */
+            --color-dark-blue-3: #001233;
+            --color-gray-1: #33415c;
+            --color-gray-2: #5c677d;
+            --color-gray-3: #7d8597;
+            --color-light-gray: #979dac;
+
+            /* Cores específicas da sua solicitação */
+            --theme-bg-light: #ff5400; /* Novo fundo principal para modo diurno */
+            --theme-bg-dark: #001d3d; /* Novo fundo principal para modo noturno */
+            --service-box-bg: #590d22; /* Cor das caixinhas de serviço e do botão Voltar */
+            --home-page-solid-bg: #590d22; /* Nova cor sólida para a página inicial */
+
+            /* Cores selecionadas para o tema CLARO (texto e outros elementos, não o fundo principal) */
+            --light-text-color: #ffffff; /* Texto geral no modo diurno, incluindo "Nossos serviços" */
+            --light-primary-color: var(--color-blue-1); 
+            --light-secondary-color: var(--color-orange-3); 
+            --light-accent-color: var(--color-red-1); 
+            --light-button-text-color: #ffffff; 
+            --light-footer-background: var(--color-gray-2);
+
+            /* Cores selecionadas para o tema ESCURO (texto e outros elementos, não o fundo principal) */
+            --dark-text-color: #f0f0f0; /* Texto claro */
+            --dark-primary-color: var(--color-blue-2); 
+            --dark-secondary-color: var(--color-orange-3); 
+            --dark-accent-color: var(--color-red-1); 
+            --dark-button-text-color: #161A1D; 
+            --dark-footer-background: var(--color-dark-blue-2);
+
+            /* Cores Atuais (alteradas pelo JS para tema claro/escuro) */
+            --current-bg-color: var(--theme-bg-dark); /* Inicialmente modo noturno */
+            --current-text-color: var(--dark-text-color);
+            --current-primary-color: var(--dark-primary-color);
+            --current-secondary-color: var(--dark-secondary-color);
+            --current-accent-color: var(--dark-accent-color);
+            --current-button-text-color: var(--dark-button-text-color);
+            --current-footer-background: var(--dark-footer-background);
+
+            /* Cores específicas para a primeira página */
+            --home-button-bg: var(--color-dark-blue-2); /* Cor do botão da primeira página */
+            --first-page-text-color: white; /* Cor do título e texto na primeira página */
+        }
+
+        /* Estilos Gerais */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--current-bg-color); 
+            color: var(--current-text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth; 
+            overflow-x: hidden; 
+            transition: background-color 0.5s ease, color 0.5s ease; 
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Página Inicial */
+        #home-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            /* Fundo sólido para a página inicial */
+            background-color: var(--home-page-solid-bg); 
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Animação de fundo da primeira página removida (permanece removida) */
+        #home-page::before {
+            content: none; 
+        }
+        
+        #home-page h1 {
+            font-size: 3em;
+            color: var(--first-page-text-color); 
+            margin-bottom: 20px; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: color 0.5s ease;
+            position: relative; 
+            z-index: 1;
+        }
+
+        #home-page p.explanation-text {
+            font-size: 1.1em;
+            max-width: 600px;
+            margin-bottom: 40px;
+            color: var(--first-page-text-color); 
+            opacity: 0.9;
+            line-height: 1.8;
+            position: relative; 
+            z-index: 1;
+        }
+
+        .main-button {
+            background-color: var(--home-button-bg); 
+            color: black; 
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 1; 
+        }
+
+        .main-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 0;
+        }
+
+        .main-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+        }
+
+        .main-button:hover {
+            background-color: white; 
+            color: var(--home-button-bg); 
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .main-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Rodapé da Página Inicial */
+        #home-page-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: var(--first-page-text-color); 
+            font-size: 0.9em;
+            opacity: 0.7;
+            transition: color 0.5s ease;
+        }
+
+        /* Página de Serviços */
+        #services-page {
+            display: none; 
+            padding: 60px 0;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        #services-page .header-image {
+            display: block;
+            margin: 0 auto 50px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        #services-page .header-image:hover {
+            transform: scale(1.02);
+        }
+
+        #services-page h2 {
+            font-size: 3.5em; 
+            text-align: center;
+            margin: 50px 0; 
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            transition: color 0.5s ease;
+        }
+
+        /* Contêiner para as caixinhas de serviço (lado a lado) */
+        .services-boxes-container {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px; 
+            margin: 40px auto;
+            max-width: 900px; 
+        }
+
+        /* Estilo comum para as caixinhas de serviço e botão voltar */
+        .service-box, .back-to-top-button {
+            background-color: var(--service-box-bg); 
+            color: white; 
+            padding: 25px 30px; 
+            border: none;
+            border-radius: 15px; 
+            font-size: 1.2em; 
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative; 
+            overflow: hidden; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box; 
+        }
+
+        /* Efeito de hover e before para service-box e back-to-top-button */
+        .service-box::before, .back-to-top-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.15); 
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 0;
+        }
+
+        .service-box:hover::before, .back-to-top-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+        }
+
+        .service-box:hover, .back-to-top-button:hover {
+            background-color: white; 
+            color: var(--service-box-bg); 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-box span, .back-to-top-button span {
+            position: relative;
+            z-index: 1; 
+        }
+
+
+        .service-box {
+            flex: 1; 
+            min-width: 280px; 
+            max-width: 400px; 
+        }
+
+        .service-box i {
+            margin-bottom: 10px; 
+            font-size: 2.2em; 
+        }
+        
+        .service-box p {
+            margin: 0; 
+            line-height: 1.2;
+        }
+
+        /* Estilo específico para o texto explicativo dentro da caixinha */
+        .service-box .explanation-text-small {
+            font-size: 0.9em; 
+            opacity: 0.8;
+            margin-top: 10px; 
+        }
+
+        /* Botão de Voltar ao Início (Back to Top) */
+        .back-to-top-button {
+            margin: 40px auto 20px auto;
+            padding: 25px 30px; 
+            border-radius: 15px; 
+            font-size: 1.2em; 
+            font-weight: 600; 
+            display: block; 
+        }
+
+        /* Botões de Modo Noturno/Diurno */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .theme-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .theme-button img {
+            width: 40px; 
+            height: 40px;
+            filter: var(--current-filter-invert); 
+            transition: filter 0.5s ease;
+        }
+
+        .theme-button:hover {
+            transform: scale(1.1);
+        }
+        .theme-button:active {
+            transform: scale(0.9);
+        }
+
+        /* Rodapé da Segunda Página */
+        #services-page-footer {
+            background-color: var(--current-footer-background);
+            color: var(--current-text-color);
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        #services-page-footer p {
+            margin: 0;
+            font-size: 0.95em;
+            letter-spacing: 0.2px;
+            opacity: 0.8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            #home-page h1 {
+                font-size: 2.2em;
+            }
+
+            #home-page p.explanation-text {
+                font-size: 1em;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .main-button {
+                padding: 15px 30px;
+                font-size: 1em;
+            }
+
+            #services-page h2 {
+                font-size: 2.5em; 
+            }
+
+            .services-boxes-container {
+                flex-direction: column; 
+                align-items: center;
+            }
+
+            .service-box {
+                min-width: 90%; 
+                max-width: 450px; 
+                font-size: 1.1em;
+                padding: 20px 25px;
+            }
+
+            .service-box i {
+                font-size: 2em;
+                margin-bottom: 8px;
+            }
+            .service-box .explanation-text-small {
+                font-size: 0.85em;
+            }
+
+            .back-to-top-button {
+                padding: 20px 25px; 
+                font-size: 1.1em; 
+            }
+
+            .theme-switcher {
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+
+            .theme-button img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #home-page h1 {
+                font-size: 1.8em;
+            }
+
+            #home-page p.explanation-text {
+                font-size: 0.9em;
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .main-button {
+                padding: 12px 25px;
+                font-size: 0.9em;
+            }
+
+            #services-page h2 {
+                font-size: 2em;
+            }
+
+            .service-box {
+                font-size: 1em;
+                padding: 15px 20px;
+            }
+
+            .service-box i {
+                font-size: 1.8em;
+                margin-bottom: 6px;
+            }
+            .service-box .explanation-text-small {
+                font-size: 0.8em;
+            }
+
+            .back-to-top-button {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+
+            .theme-switcher {
+                top: 10px;
+                right: 10px;
+                gap: 5px;
+            }
+
+            .theme-button img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="home-page">
+        <h1>Sistemas de serviços da Etec</h1>
+        <p class="explanation-text">Explore os recursos e informações essenciais da Etec, facilitando seu acesso a diversos serviços acadêmicos e administrativos.</p>
+        <button id="goToServices" class="main-button"><span>Serviços</span></button>
+        <footer id="home-page-footer">
+            <p>Desenvolvido por Aura</p>
+        </footer>
+    </div>
+
+    <div id="services-page" class="container">
+        <div class="theme-switcher">
+            <button id="lightModeBtn" class="theme-button">
+                <img src="https://images.vexels.com/media/users/3/145140/isolated/preview/49015111c7e7e8bf8d34a0ac0f76f171-icone-de-pequenos-raios-ondulados-do-sol.png" alt="Modo Diurno">
+            </button>
+            <button id="darkModeBtn" class="theme-button">
+                <img src="https://w7.pngwing.com/pngs/662/722/png-transparent-icon-icon-icon-moon-moon.png" alt="Modo Noturno">
+            </button>
+        </div>
+
+        <img src="https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2025/01/cps-55-anos-edit.png" alt="CPS 55 Anos" class="header-image">
+        <h2 id="services-title">Nossos serviços</h2>
+
+        <div class="services-boxes-container">
+            <a href="https://joaofer10.github.io/aura2/" target="_blank" class="service-box">
+                <i class="fas fa-search-location"></i> <p>Achados e Perdidos</p>
+                <p class="explanation-text-small">Encontre ou registre itens perdidos e achados no campus da Etec de forma rápida e segura.</p>
+            </a>
+
+            <div class="service-box">
+                <i class="fas fa-tools"></i> <p>Mais serviços serão depositados</p>
+                <p class="explanation-text-small">Fique atento! Novas funcionalidades e recursos serão adicionados em breve para melhor atendê-lo.</p>
+            </div>
+        </div>
+
+        <button id="backToTop" class="back-to-top-button"><span>Voltar ao início</span></button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const goToServicesButton = document.getElementById('goToServices');
+            const homePage = document.getElementById('home-page');
+            const servicesPage = document.getElementById('services-page');
+            const servicesTitle = document.getElementById('services-title');
+            const backToTopButton = document.getElementById('backToTop');
+            const lightModeBtn = document.getElementById('lightModeBtn');
+            const darkModeBtn = document.getElementById('darkModeBtn');
+            const body = document.body; 
+            const root = document.documentElement; 
+
+            // Função para aplicar o tema
+            function applyTheme(theme) {
+                if (theme === 'light') {
+                    body.style.backgroundColor = 'var(--theme-bg-light)'; 
+                    servicesTitle.style.color = '#ffffff'; 
+                    root.style.setProperty('--current-text-color', 'var(--light-text-color)'); 
+                    root.style.setProperty('--current-filter-invert', 'invert(0)'); 
+                    root.style.setProperty('--current-primary-color', 'var(--light-primary-color)');
+                    root.style.setProperty('--current-secondary-color', 'var(--light-secondary-color)');
+                    root.style.setProperty('--current-accent-color', 'var(--light-accent-color)');
+                    root.style.setProperty('--current-button-text-color', 'var(--light-button-text-color)');
+                    root.style.setProperty('--current-footer-background', 'var(--light-footer-background)');
+
+                } else { // Dark mode (padrão)
+                    body.style.backgroundColor = 'var(--theme-bg-dark)'; 
+                    servicesTitle.style.color = 'var(--dark-text-color)'; 
+                    root.style.setProperty('--current-text-color', 'var(--dark-text-color)');
+                    root.style.setProperty('--current-filter-invert', 'invert(1)'); 
+                    root.style.setProperty('--current-primary-color', 'var(--dark-primary-color)');
+                    root.style.setProperty('--current-secondary-color', 'var(--dark-secondary-color)');
+                    root.style.setProperty('--current-accent-color', 'var(--dark-accent-color)');
+                    root.style.setProperty('--current-button-text-color', 'var(--dark-button-text-color)');
+                    root.style.setProperty('--current-footer-background', 'var(--dark-footer-background)');
+                }
+                localStorage.setItem('theme', theme); 
+            }
+
+            // Carrega o tema salvo ou define o padrão (escuro)
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            goToServicesButton.addEventListener('click', () => {
+                homePage.style.display = 'none';
+                servicesPage.style.display = 'block';
+                applyTheme(localStorage.getItem('theme') || 'dark'); 
+
+                setTimeout(() => {
+                    servicesPage.scrollIntoView({ behavior: 'smooth' }); 
+                }, 100); 
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                servicesTitle.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            lightModeBtn.addEventListener('click', () => {
+                applyTheme('light');
+            });
+
+            darkModeBtn.addEventListener('click', () => {
+                applyTheme('dark');
+            });
+        });
+    </script>
+</body>
+</html>
