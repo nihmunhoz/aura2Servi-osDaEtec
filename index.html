@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* Seu CSS será inserido aqui */
         /* Variáveis CSS para as paletas de cores */
         :root {
             /* Paleta 1: Escura, avermelhada, laranja */
@@ -46,6 +47,9 @@
             --light-accent-color: var(--color-red-1); 
             --light-button-text-color: #ffffff; 
             --light-footer-background: var(--color-gray-2);
+            /* Nova cor para o hover do service-box no modo diurno */
+            --light-service-box-hover-bg: #e9d8a6; 
+            --light-service-box-hover-text: var(--service-box-bg); /* Cor do texto no hover do service-box no modo diurno */
 
             /* Cores selecionadas para o tema ESCURO (texto e outros elementos, não o fundo principal) */
             --dark-text-color: #f0f0f0; /* Texto claro */
@@ -54,6 +58,10 @@
             --dark-accent-color: var(--color-red-1); 
             --dark-button-text-color: #161A1D; 
             --dark-footer-background: var(--color-dark-blue-2);
+            /* Nova cor para o hover do service-box no modo noturno */
+            --dark-service-box-hover-bg: black; 
+            --dark-service-box-hover-text: white; /* Cor do texto no hover do service-box no modo noturno */
+
 
             /* Cores Atuais (alteradas pelo JS para tema claro/escuro) */
             --current-bg-color: var(--theme-bg-dark); /* Inicialmente modo noturno */
@@ -63,10 +71,13 @@
             --current-accent-color: var(--dark-accent-color);
             --current-button-text-color: var(--dark-button-text-color);
             --current-footer-background: var(--dark-footer-background);
+            --current-service-box-hover-bg: var(--dark-service-box-hover-bg); /* Cor de hover atual para service-box */
+            --current-service-box-hover-text: var(--dark-service-box-hover-text); /* Cor de texto de hover atual para service-box */
 
             /* Cores específicas para a primeira página */
             --home-button-bg: var(--color-dark-blue-2); /* Cor do botão da primeira página */
             --first-page-text-color: white; /* Cor do título e texto na primeira página */
+            --main-button-hover-bg: #e5e5e5; /* Nova cor de hover para o botão principal */
         }
 
         /* Estilos Gerais */
@@ -103,6 +114,21 @@
             transition: background-color 0.5s ease;
         }
 
+        /* Nova Imagem na Página Inicial */
+        #home-page .etec-logo {
+            max-width: 400px; /* Aumentado o tamanho da imagem */
+            height: auto;
+            margin-bottom: 30px; /* Espaço entre a imagem e o título */
+            border-radius: 10px; /* Borda levemente arredondada, se desejar */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+            z-index: 1; /* Garante que a imagem esteja acima de qualquer elemento de fundo */
+            transition: transform 0.3s ease; /* Transição suave para o hover */
+        }
+
+        #home-page .etec-logo:hover {
+            transform: scale(1.03); /* Efeito sutil ao passar o mouse */
+        }
+
         /* Animação de fundo da primeira página removida (permanece removida) */
         #home-page::before {
             content: none; 
@@ -130,8 +156,8 @@
         }
 
         .main-button {
-            background-color: var(--home-button-bg); 
-            color: black; 
+            background-color: white; /* Alterado para branco */ 
+            color: var(--home-button-bg); /* Cor do texto do botão, será a cor original do botão */ 
             padding: 18px 40px;
             border: none;
             border-radius: 50px;
@@ -154,7 +180,7 @@
             left: 50%;
             width: 300%;
             height: 300%;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.15); /* Alterado para uma sombra escura no hover */
             border-radius: 50%;
             transition: all 0.5s ease;
             transform: translate(-50%, -50%) scale(0);
@@ -167,8 +193,8 @@
         }
 
         .main-button:hover {
-            background-color: white; 
-            color: var(--home-button-bg); 
+            background-color: var(--main-button-hover-bg); /* Nova cor de hover: #e5e5e5 */
+            color: var(--home-button-bg); /* Cor do texto do botão no hover, mantendo a cor original */ 
             transform: translateY(-3px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
         }
@@ -276,9 +302,17 @@
             opacity: 0;
         }
 
-        .service-box:hover, .back-to-top-button:hover {
-            background-color: white; 
-            color: var(--service-box-bg); 
+        /* Hover das caixinhas de serviço (service-box) */
+        .service-box:hover {
+            background-color: var(--current-service-box-hover-bg); /* Usa a variável dinâmica para a cor de fundo */
+            color: var(--current-service-box-hover-text); /* Usa a variável dinâmica para a cor do texto */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-to-top-button:hover {
+            background-color: white; /* Botão "Voltar ao início" fica branco no hover */
+            color: var(--service-box-bg); /* Texto do botão "Voltar ao início" pega a cor original da caixinha */
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
@@ -374,6 +408,10 @@
 
         /* Responsividade */
         @media (max-width: 768px) {
+            #home-page .etec-logo {
+                max-width: 250px; /* Ajuste para tablets */
+                margin-bottom: 20px;
+            }
             #home-page h1 {
                 font-size: 2.2em;
             }
@@ -431,6 +469,10 @@
         }
 
         @media (max-width: 480px) {
+            #home-page .etec-logo {
+                max-width: 180px; /* Ajuste para celulares */
+                margin-bottom: 15px;
+            }
             #home-page h1 {
                 font-size: 1.8em;
             }
@@ -484,6 +526,8 @@
 <body>
 
     <div id="home-page">
+        <img src="https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/90/2024/03/etec-darcy_pereira_de_moraes.png" alt="Logo Etec Darcy Pereira de Moraes" class="etec-logo">
+        
         <h1>Sistemas de serviços da Etec</h1>
         <p class="explanation-text">Explore os recursos e informações essenciais da Etec, facilitando seu acesso a diversos serviços acadêmicos e administrativos.</p>
         <button id="goToServices" class="main-button"><span>Serviços</span></button>
@@ -544,6 +588,8 @@
                     root.style.setProperty('--current-accent-color', 'var(--light-accent-color)');
                     root.style.setProperty('--current-button-text-color', 'var(--light-button-text-color)');
                     root.style.setProperty('--current-footer-background', 'var(--light-footer-background)');
+                    root.style.setProperty('--current-service-box-hover-bg', 'var(--light-service-box-hover-bg)'); // Cor de hover para service-box no modo light
+                    root.style.setProperty('--current-service-box-hover-text', 'var(--light-service-box-hover-text)'); // Cor de texto para service-box no modo light
 
                 } else { // Dark mode (padrão)
                     body.style.backgroundColor = 'var(--theme-bg-dark)'; 
@@ -555,6 +601,8 @@
                     root.style.setProperty('--current-accent-color', 'var(--dark-accent-color)');
                     root.style.setProperty('--current-button-text-color', 'var(--dark-button-text-color)');
                     root.style.setProperty('--current-footer-background', 'var(--dark-footer-background)');
+                    root.style.setProperty('--current-service-box-hover-bg', 'var(--dark-service-box-hover-bg)'); // Cor de hover para service-box no modo dark
+                    root.style.setProperty('--current-service-box-hover-text', 'var(--dark-service-box-hover-text)'); // Cor de texto para service-box no modo dark
                 }
                 localStorage.setItem('theme', theme); 
             }
@@ -574,7 +622,13 @@
             });
 
             backToTopButton.addEventListener('click', () => {
-                servicesTitle.scrollIntoView({ behavior: 'smooth' });
+                // Rola para o topo da página de serviços
+                servicesPage.scrollTop = 0; // Para rolar a div, se ela tiver overflow
+                // Ou, se a rolagem for da janela:
+                window.scrollTo({
+                    top: servicesPage.offsetTop,
+                    behavior: 'smooth'
+                });
             });
 
             lightModeBtn.addEventListener('click', () => {
